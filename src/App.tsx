@@ -867,7 +867,7 @@ const FloatingActionButton = () => {
       animate={{ scale: 1, opacity: 1 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-className="fixed bottom-5 right-75 z-[100] w-10 h-10 bg-brand-red text-white rounded-full shadow-2xl flex items-center justify-center md:hidden"    >
+className="fixed bottom-5 left-5 z-[100] w-10 h-10 bg-brand-red text-white rounded-full shadow-2xl flex items-center justify-center md:hidden"    >
       <Phone size={22} />
     </motion.a>
   );
