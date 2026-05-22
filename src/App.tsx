@@ -19,6 +19,7 @@ import {
   Star,
   Quote
 } from 'lucide-react';
+import lekrosLogo from './assets/i027874607709941324.png';
 
 // --- Components ---
 
@@ -507,6 +508,25 @@ const HowItWorks = () => {
   );
 };
 
+const Partner = () => {
+  return (
+    <section className="py-14 bg-white text-brand-black overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col items-center justify-center gap-8 border-y border-brand-black/10 py-12">
+          <p className="text-brand-red tracking-[0.3em] uppercase font-medium">Partner</p>
+          <a href="https://www.lekros.eu/" target="_blank" rel="noopener noreferrer">
+            <img
+              src={lekrosLogo}
+              alt="Lekros"
+              className="w-full max-w-[340px] h-auto object-contain"
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Testimonials = () => {
   const reviews = [
     {
@@ -883,6 +903,7 @@ export default function App() {
         <AboutStory />
         <MaterialsCatalog />
         <HowItWorks />
+        <Partner />
         <Testimonials />
         <Contact />
       </main>
