@@ -20,6 +20,8 @@ import {
   Quote
 } from 'lucide-react';
 import lekrosLogo from './assets/i027874607709941324.png';
+import porfixSlide1 from './assets/file_000000009c3471f4af6302a789d1fd5b.png';
+import porfixSlide2 from './assets/file_000000009ad8720ab6c921c4709689dc.png';
 
 // --- Components ---
 
@@ -465,6 +467,196 @@ const AboutStory = () => {
   );
 };
 
+const PromoCarousel = () => {
+  const slides = [
+    {
+      image: porfixSlide1,
+      alt: 'Akční nabídka Porfix – příčkovky a tvarovky',
+    },
+    {
+      image: porfixSlide2,
+      alt: 'Akční nabídka Porfix – kompletní ceník všech rozměrů',
+    },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % slides.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+
+  useEffect(() => {
+    if (isPaused || isLightboxOpen) return;
+    const timer = setInterval(next, 6000);
+    return () => clearInterval(timer);
+  }, [isPaused, isLightboxOpen]);
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsLightboxOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isLightboxOpen]);
+
+  const currentSlide = slides[currentIndex];
+
+  return (
+    <section id="akce" className="py-24 bg-brand-light grain-overlay overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <span className="text-brand-red font-display tracking-widest text-sm uppercase mb-2 block">Aktuální akce • Porfix</span>
+            <h2 className="text-5xl md:text-6xl uppercase">AKČNÍ <span className="text-brand-red">NABÍDKA</span></h2>
+          </div>
+          <div className="h-0.5 flex-grow bg-brand-black/10 mx-8 hidden md:block"></div>
+          <div className="flex items-center p-4 bg-white border border-brand-black/5 shadow-sm">
+            <div className="pulse-dot mr-3">
+              <span></span>
+              <span></span>
+            </div>
+            <span className="font-display text-sm uppercase tracking-wider">Platí do 30.6.2026</span>
+          </div>
+        </div>
+
+        <div
+          className="grid lg:grid-cols-2 gap-16 items-center"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="relative max-w-md mx-auto">
+              <AnimatePresence mode="wait">
+                <motion.button
+                  key={currentIndex}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.5, ease: 'circOut' }}
+                  onClick={() => setIsLightboxOpen(true)}
+                  className="block w-full cursor-zoom-in group"
+                  aria-label="Zvětšit leták"
+                >
+                  <img
+                    src={currentSlide.image}
+                    alt={currentSlide.alt}
+                    loading="lazy"
+                    className="w-full h-auto shadow-2xl border border-brand-black/5 group-hover:shadow-[0_20px_50px_-15px_rgba(178,31,31,0.4)] transition-shadow duration-500"
+                  />
+                </motion.button>
+              </AnimatePresence>
+            </div>
+
+            <div className="flex justify-center gap-4 mt-8">
+              <button
+                onClick={prev}
+                className="w-14 h-14 border border-brand-black/10 bg-white flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
+                aria-label="Předchozí leták"
+              >
+                <ChevronLeft className="group-hover:scale-110 group-hover:text-white transition-all" />
+              </button>
+              <button
+                onClick={next}
+                className="w-14 h-14 border border-brand-black/10 bg-white flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
+                aria-label="Další leták"
+              >
+                <ChevronRight className="group-hover:scale-110 group-hover:text-white transition-all" />
+              </button>
+            </div>
+
+            <div className="flex justify-center mt-6 gap-3">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentIndex(i)}
+                  className={`h-1 transition-all duration-500 ${i === currentIndex ? 'w-12 bg-brand-red' : 'w-4 bg-brand-black/10'}`}
+                  aria-label={`Přejít na leták ${i + 1}`}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-4xl md:text-5xl uppercase mb-6 leading-tight">
+              PÓROBETON <span className="text-brand-red">PORFIX</span> V AKCI
+            </h3>
+            <p className="text-xl text-brand-gray mb-10 italic leading-relaxed">
+              Akční ceny na příčkovky a tvarovky Porfix po celou dobu trvání akce. Kvalitní pórobetonové tvárnice za výhodné ceny pro hrubou stavbu i příčky.
+            </p>
+            <ul className="space-y-4 mb-10">
+              <li className="flex items-start text-lg text-brand-black">
+                <div className="w-2 h-2 bg-brand-red mt-2.5 mr-4 flex-shrink-0"></div>
+                <span>Příčkovky už od <span className="font-display">32,- Kč/ks</span></span>
+              </li>
+              <li className="flex items-start text-lg text-brand-black">
+                <div className="w-2 h-2 bg-brand-red mt-2.5 mr-4 flex-shrink-0"></div>
+                <span>Tvarovky už od <span className="font-display">117,- Kč/ks</span></span>
+              </li>
+              <li className="flex items-start text-lg text-brand-black">
+                <div className="w-2 h-2 bg-brand-red mt-2.5 mr-4 flex-shrink-0"></div>
+                <span>9 rozměrů na výběr, ceny včetně DPH</span>
+              </li>
+            </ul>
+            <p className="text-sm text-brand-gray uppercase tracking-widest mb-6 font-display">
+              Akce platí od 25.5. do 30.6.2026
+            </p>
+            <a
+              href="#kontakt"
+              className="inline-block bg-brand-red text-white px-10 py-4 font-display text-xl hover:bg-brand-black transition-all duration-300"
+            >
+              MÁM ZÁJEM O AKCI
+            </a>
+          </motion.div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isLightboxOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-6 py-12">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute inset-0 bg-brand-black/90 backdrop-blur-sm cursor-zoom-out"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative z-10 max-h-full"
+            >
+              <button
+                onClick={() => setIsLightboxOpen(false)}
+                className="absolute -top-2 -right-2 md:-top-4 md:-right-4 bg-brand-red text-white w-12 h-12 flex items-center justify-center hover:bg-brand-black transition-colors z-10 shadow-lg"
+                aria-label="Zavřít"
+              >
+                <X size={24} />
+              </button>
+              <img
+                src={currentSlide.image}
+                alt={currentSlide.alt}
+                className="max-h-[90vh] w-auto shadow-2xl"
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+};
+
 const HowItWorks = () => {
   const steps = [
     {
@@ -902,6 +1094,7 @@ export default function App() {
         <TrustPillars />
         <AboutStory />
         <MaterialsCatalog />
+        <PromoCarousel />
         <HowItWorks />
         <Partner />
         <Testimonials />
